@@ -66,6 +66,7 @@ public class SlideShowManager {
                     break;
 
                 case "R":
+                    //Check if the slideshow is empty
                     if(slideshow.size() == 0){
                         println("Empty slideshow. Nothing to remove.");
                         break;
@@ -88,6 +89,7 @@ public class SlideShowManager {
                     break;
 
                 case "S":
+                    //Check if there's more than one photo
                     if(slideshow.size() <= 1){
                         println("There's less than one photo. Nothing to swap.");
                         break;
@@ -156,21 +158,31 @@ public class SlideShowManager {
                     break;
 
                 case "Z":
-                    //Get the last ActionCommand on UndoStack
-                    ActionCommand inverse = undoStack.peek().getInverse();
-                    inverse.perform(slideshow); //Perform the inverse
+                    //Be prepared to catch Empty Stack Exception
+                    try {
+                        //Get the last ActionCommand on UndoStack
+                        ActionCommand inverse = undoStack.peek().getInverse();
+                        inverse.perform(slideshow); //Perform the inverse
 
-                    //Pop the stack off the UndoStack and add it to Redo Stack
-                    redoStack.push(undoStack.pop());
+                        //Pop the stack off the UndoStack and add it to Redo Stack
+                        redoStack.push(undoStack.pop());
+                    }catch (EmptyStackException ex){
+                        println("Empty Stack!");
+                    }
                     break;
 
                 case "Y":
-                    //Redo the last ActionCommand that was undone.
-                    ActionCommand redo = redoStack.pop();
-                    redo.perform(slideshow);
+                    //Be prepared to catch Empty Stack Exception
+                    try {
+                        //Redo the last ActionCommand that was undone.
+                        ActionCommand redo = redoStack.pop();
+                        redo.perform(slideshow);
 
-                    //Add the redone ActionCommand to UndoStack
-                    undoStack.push(redo);
+                        //Add the redone ActionCommand to UndoStack
+                        undoStack.push(redo);
+                    }catch (EmptyStackException ex){
+                        println("Empty Stack!");
+                    }
                     break;
 
                 case "Q":

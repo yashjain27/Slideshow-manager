@@ -124,15 +124,15 @@ public class ActionCommand {
 
             case MOVE:
                 photo = slideshow.get(positionOne);
-                String photo2 = slideshow.get(positionTwo);
+
                 if(positionOne > positionTwo){
-                    int temp = positionOne;
-                    positionOne = positionTwo;
-                    positionTwo = temp;
+                    //int temp = positionOne;
+                    //positionOne = positionTwo;
+                    //positionTwo = temp;
+                    Collections.rotate(slideshow.subList(positionTwo, positionOne + 1), +1);
+                }else {
+                    Collections.rotate(slideshow.subList(positionOne, positionTwo + 1), -1);
                 }
-                //slideshow.add(positionTwo, photo);
-                //slideshow.remove(positionOne);
-                Collections.rotate(slideshow.subList(positionOne, positionTwo+1), -1);
                 break;
 
             case REMOVE:
@@ -177,8 +177,8 @@ public class ActionCommand {
             case MOVE:
                 action = new ActionCommand(ActionType.MOVE);
                 //action.setPhoto(photo);
-                action.setPositionOne(positionOne);
-                action.setPositionTwo(positionTwo);
+                action.setPositionOne(positionTwo);
+                action.setPositionTwo(positionOne);
         }
         return action;
     }
